@@ -1,6 +1,6 @@
 import { useState } from "react";
 import bg from "../src/assets/bg.jpg";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import toast from "react-hot-toast";
 function Login() {
