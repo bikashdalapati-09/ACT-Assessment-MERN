@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken'
+
 
 export const register = async (req, res) => {
   try {
@@ -63,10 +65,29 @@ export const login = async (req, res) => {
       });
     }
 
-    return res.status(200).json({
+    const token = jwt.sign({userId: existUser._id}, process.env.JWT_SECRET,{expiresIn: "1d"})
+    
+    return res.status(200).cookie("token", token,{
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    }).json({
       message: "User Logged in successfully 👌",
+      success: true
     });
   } catch (error) {
     console.log(error);
   }
 };
+
+export const logout = async (req, res) => {
+    try {
+        return res.status(200).cookie("token", "", {maxAge: 0}).json({
+            message: "User logged out successfully 👌",
+            success: true
+        })
+    } catch (error) {
+        console.log(error);     
+    }
+}
