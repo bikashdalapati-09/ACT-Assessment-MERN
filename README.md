@@ -43,7 +43,7 @@
 
 ### Authentication:
 
-* JWT Token stored in **HTTP-only Cookie**
+* JWT Token stored in **Browser as cookie**
 
 
 ---
